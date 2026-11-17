@@ -1,0 +1,6 @@
+<?php
+require_once 'includes/funcoes.php';$id=(int)($_GET['id']??0);$s=$pdo->prepare("SELECT p.*,c.nome categoria FROM produtos p LEFT JOIN categorias c ON c.id=p.categoria_id WHERE p.id=? AND p.ativo=1");$s->execute([$id]);$p=$s->fetch();if(!$p){http_response_code(404);exit('Produto não encontrado.');}
+$titulo=$p['nome'];require 'includes/header.php';?>
+<div class="row g-4"><div class="col-md-6"><div class="product-art rounded" style="height:420px;font-size:4rem">LUMIA</div></div><div class="col-md-6"><div class="hero-kicker"><?=e($p['categoria']??'LUMIA')?></div><h1><?=e($p['nome'])?></h1><p class="product-price fs-4"><?=preco($p['preco'])?></p><p class="muted"><?=nl2br(e($p['descricao']))?></p><p><strong>Disponibilidade:</strong> <?= (int)$p['estoque']>0?'Em estoque':'Indisponível' ?></p>
+<form method="post" action="carrinho.php" class="d-flex gap-2"><input type="hidden" name="produto_id" value="<?=$p['id']?>"><input type="number" name="quantidade" value="1" min="1" max="<?=max(1,(int)$p['estoque'])?>" class="form-control" style="max-width:100px"><button class="btn btn-lumia" <?=$p['estoque']<1?'disabled':''?>>Adicionar ao carrinho</button></form></div></div>
+<?php require 'includes/footer.php';?>

@@ -1,0 +1,3 @@
+<?php require_once 'includes/funcoes.php';exigir_login();$id=(int)($_GET['id']??0);$s=$pdo->prepare("SELECT * FROM pedidos WHERE id=? AND usuario_id=?");$s->execute([$id,$_SESSION['usuario']['id']]);$p=$s->fetch();if(!$p)exit('Pedido não encontrado.');$titulo='Pedido confirmado';require 'includes/header.php';?>
+<div class="panel text-center py-5"><div class="hero-kicker">LUMIA</div><h1>Pedido registrado!</h1><p>Seu pedido <strong>#<?=$p['id']?></strong> foi registrado com sucesso.</p><p class="fs-4 serif"><?=preco($p['total'])?></p><a class="btn btn-lumia" href="perfil.php">Acompanhar no meu perfil</a></div>
+<?php require 'includes/footer.php';?>

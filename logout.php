@@ -1,0 +1,1 @@
+<?php require_once 'includes/funcoes.php';if(usuario_logado())log_acao('Logout');$_SESSION=[];session_destroy();header('Location: index.php');exit;
